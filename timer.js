@@ -14,14 +14,18 @@ function iniciarTemporizador(){
 }
 
 function startPause(){
-    displayTimer.textContent = tempoInicial;
+    const minutosFormatados = Math.floor(tempoRestante / 60).toString().padStart(2, '0');
+    const segundosFormatados = (tempoRestante % 60).toString().padStart(2,'0');
+    displayTimer.textContent = `${minutosFormatados}:${segundosFormatados}`;
 
     btnStarPause.addEventListener('click', () => {
 
             if(!estaRodando){
                 intervalo = setInterval(temporizador, 1000);
-                btnStarPause.textContent = 'PAUSE';
-                btnStarPause.style.backgroundColor = 'red';
+                setTimeout(() => {
+                    btnStarPause.textContent = 'PAUSE';
+                    btnStarPause.style.backgroundColor = 'red';
+                }, 1000);
                 estaRodando = true;
             }
             else{
@@ -48,13 +52,14 @@ function temporizador(){
         
         btnStarPause.textContent = 'START';
         btnStarPause.style.backgroundColor = 'white';
-        estaRodando = false;
     }
 
     if (tempoRestante > 0) {
         tempoRestante -= 1;
     }else{
         clearInterval(intervalo);
+        estaRodando = false;
+        tempoRestante = tempoInicial;
     }
 }
 
