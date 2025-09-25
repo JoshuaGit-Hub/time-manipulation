@@ -1,27 +1,41 @@
-let tempoRestante = 4;
+let tempoRestante = 20;
 const tempoInicial = tempoRestante;
+
+let estaRodando = false;
 let intervalo;
 
+const btnStarPause = document.getElementById('pausar-despausar');
+const displayTimer = document.getElementById('time');
+
+
 function iniciarTemporizador(){
-    setInterval(temporizador, 1000);
+    intervalo = setInterval(temporizador, 1000);
+    estaRodando = true;
 }
 
 function startPause(){
-    document.addEventListener('DOMContentLoaded', () => {
-  
-    const btnStarPause = document.getElementById('pausar-despausar');
+    displayTimer.textContent = tempoInicial;
 
     btnStarPause.addEventListener('click', () => {
 
-    btnStarPause.textContent = 'bucetao';
-
-  });
-});
+            if(!estaRodando){
+                intervalo = setInterval(temporizador, 1000);
+                btnStarPause.textContent = 'PAUSE';
+                btnStarPause.style.backgroundColor = 'red';
+                estaRodando = true;
+            }
+            else{
+                clearInterval(intervalo);
+                btnStarPause.textContent = 'START';
+                btnStarPause.style.backgroundColor = 'white';
+                estaRodando = false;
+            }
+         
+    });
 }
 
 function temporizador(){
-    const displayTimer = document.getElementById('time');
-    
+
     const minutosFormatados = Math.floor(tempoRestante / 60).toString().padStart(2, '0');
     const segundosFormatados = (tempoRestante % 60).toString().padStart(2,'0');
     
@@ -31,14 +45,17 @@ function temporizador(){
         const minutosCongelados = Math.floor(tempoInicial / 60).toString().padStart(2, '0');
         const segundosCongelados = (tempoInicial % 60).toString().padStart(2, '0');
         displayTimer.textContent = `${minutosCongelados}:${segundosCongelados}`;
+        
+        btnStarPause.textContent = 'START';
+        btnStarPause.style.backgroundColor = 'white';
+        estaRodando = false;
     }
 
     if (tempoRestante > 0) {
         tempoRestante -= 1;
     }else{
-        clearInterval(iniciarTemporizador);
+        clearInterval(intervalo);
     }
 }
 
-iniciarTemporizador();
 startPause();
