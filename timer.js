@@ -7,11 +7,21 @@ let intervalo;
 const btnStarPause = document.getElementById('pausar-despausar');
 const displayTimer = document.getElementById('time');
 
+const dedoDoMeio = document.getElementById('dedo-do-meio');
+
 input.addEventListener('input', () => {
-    tempoRestante = input.value;
-    const minutosFormatados = Math.floor(input.value / 60).toString().padStart(2, '0');
-    const segundosFormatados = (input.value % 60).toString().padStart(2,'0');
-    displayTimer.innerText = `${minutosFormatados}:${segundosFormatados}`;
+    if(input.value > 1000){
+        dedoDoMeio.style.display = 'block';
+        
+        setTimeout(() => {
+            dedoDoMeio.style.display = 'none';
+        }, 3000);
+    }else{
+        tempoRestante = input.value;
+        const minutosFormatados = Math.floor(input.value / 60).toString().padStart(2, '0');
+        const segundosFormatados = (input.value % 60).toString().padStart(2,'0');
+        displayTimer.innerText = `${minutosFormatados}:${segundosFormatados}`;
+    }
 });
 
 const tempoInicial = tempoRestante;
