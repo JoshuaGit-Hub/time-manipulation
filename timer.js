@@ -1,12 +1,20 @@
-let tempoRestante = 20;
-const tempoInicial = tempoRestante;
+const input = document.getElementById('input');
 
+let tempoRestante = 10;
 let estaRodando = false;
 let intervalo;
 
 const btnStarPause = document.getElementById('pausar-despausar');
 const displayTimer = document.getElementById('time');
 
+input.addEventListener('input', () => {
+    tempoRestante = input.value;
+    const minutosFormatados = Math.floor(input.value / 60).toString().padStart(2, '0');
+    const segundosFormatados = (input.value % 60).toString().padStart(2,'0');
+    displayTimer.innerText = `${minutosFormatados}:${segundosFormatados}`;
+});
+
+const tempoInicial = tempoRestante;
 
 function iniciarTemporizador(){
     intervalo = setInterval(temporizador, 1000);
@@ -22,10 +30,10 @@ function startPause(){
 
             if(!estaRodando){
                 intervalo = setInterval(temporizador, 1000);
-                setTimeout(() => {
+                
                     btnStarPause.textContent = 'PAUSE';
                     btnStarPause.style.backgroundColor = 'red';
-                }, 1000);
+               
                 estaRodando = true;
             }
             else{
