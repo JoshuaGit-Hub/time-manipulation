@@ -1,6 +1,6 @@
 const input = document.getElementById('input');
 
-let tempoRestante = 00;
+let tempoRestante = '00';
 let estaRodando = false;
 let intervalo;
 
@@ -64,4 +64,17 @@ function temporizador() {
         tempoRestante -= 1;
     }
 }
+
+function atualizarHora(){
+const horas = document.getElementById('horas');
+
+const formatador = new Intl.DateTimeFormat(undefined, {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+
+horas.textContent = formatador.format(new Date());
+}
+
+setInterval(atualizarHora, 1000);
 
