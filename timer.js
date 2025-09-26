@@ -1,26 +1,20 @@
 const input = document.getElementById('input');
 
-let tempoRestante = 10;
+let tempoRestante = 00;
 let estaRodando = false;
 let intervalo;
 
 const btnStarPause = document.getElementById('pausar-despausar');
 const displayTimer = document.getElementById('time');
 
-const dedoDoMeio = document.getElementById('dedo-do-meio');
-
 input.addEventListener('input', () => {
-    if(input.value > 1000){
-        dedoDoMeio.style.display = 'block';
-        
-        setTimeout(() => {
-            dedoDoMeio.style.display = 'none';
-        }, 3000);
-    }else{
-        tempoRestante = input.value;
-        const minutosFormatados = Math.floor(input.value / 60).toString().padStart(2, '0');
-        const segundosFormatados = (input.value % 60).toString().padStart(2,'0');
-        displayTimer.innerText = `${minutosFormatados}:${segundosFormatados}`;
+    if(!(input.value < 0)){
+        if(input.value <= 999){
+            tempoRestante = input.value * 60;
+            const minutosFormatados = input.value.toString().padStart(2, '0');
+
+            displayTimer.textContent = `${minutosFormatados}:${'00'}`;
+        }
     }
 });
 
@@ -31,54 +25,43 @@ function iniciarTemporizador(){
     estaRodando = true;
 }
 
-function startPause(){
-    const minutosFormatados = Math.floor(tempoRestante / 60).toString().padStart(2, '0');
-    const segundosFormatados = (tempoRestante % 60).toString().padStart(2,'0');
+function atualizarDisplay(segundos) {
+    const minutosFormatados = Math.floor(segundos / 60).toString().padStart(2, '0');
+    const segundosFormatados = (segundos % 60).toString().padStart(2,'0');
     displayTimer.textContent = `${minutosFormatados}:${segundosFormatados}`;
-
-    btnStarPause.addEventListener('click', () => {
-
-            if(!estaRodando){
-                intervalo = setInterval(temporizador, 1000);
-                
-                    btnStarPause.textContent = 'PAUSE';
-                    btnStarPause.style.backgroundColor = 'red';
-               
-                estaRodando = true;
-            }
-            else{
-                clearInterval(intervalo);
-                btnStarPause.textContent = 'START';
-                btnStarPause.style.backgroundColor = 'white';
-                estaRodando = false;
-            }
-         
-    });
 }
 
-function temporizador(){
+btnStarPause.addEventListener('click', () => {
 
-    const minutosFormatados = Math.floor(tempoRestante / 60).toString().padStart(2, '0');
-    const segundosFormatados = (tempoRestante % 60).toString().padStart(2,'0');
-    
-    displayTimer.textContent = `${minutosFormatados}:${segundosFormatados}`;
-    
-    if(tempoRestante <= 0){
-        const minutosCongelados = Math.floor(tempoInicial / 60).toString().padStart(2, '0');
-        const segundosCongelados = (tempoInicial % 60).toString().padStart(2, '0');
-        displayTimer.textContent = `${minutosCongelados}:${segundosCongelados}`;
-        
-        btnStarPause.textContent = 'START';
-        btnStarPause.style.backgroundColor = 'white';
-    }
+        if(!estaRodando){
+            intervalo = setInterval(temporizador, 1000);
+            
+                btnStarPause.textContent = 'PAUSE';
+                btnStarPause.style.backgroundColor = 'red';
+           
+            estaRodando = true;
+        }
+        else{
+            clearInterval(intervalo);
+            btnStarPause.textContent = 'START';
+            btnStarPause.style.backgroundColor = 'white';
+            estaRodando = false;
+        }
+     
+});
 
-    if (tempoRestante > 0) {
-        tempoRestante -= 1;
-    }else{
+function temporizador() {
+    atualizarDisplay(tempoRestante);
+
+    if (tempoRestante <= 0) {
+        tempoRestante = tempoInicial; // reseta
         clearInterval(intervalo);
         estaRodando = false;
-        tempoRestante = tempoInicial;
+        btnStarPause.textContent = 'START';
+        btnStarPause.style.backgroundColor = 'white';
+        atualizarDisplay(tempoRestante); // mostra o reset
+    } else {
+        tempoRestante -= 1;
     }
 }
 
-startPause();
