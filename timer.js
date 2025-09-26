@@ -17,10 +17,15 @@ input.addEventListener('input', () => {
             const minutosFormatados = input.value.toString().padStart(2, '0');
             
             displayTimer.textContent = `${minutosFormatados}:${'00'}`;
-            if(!(input.value === "")){
+            if(!(input.value === "" ||  input.value === 0 || input.value == null)){
                 horaAcabar.style.display = 'block';
                 vaiacabarTexte.style.display = 'block';
             }
+            else{
+                horaAcabar.style.display = 'none';
+                vaiacabarTexte.style.display = 'none';
+            }
+
             horaDeFim = Date.now() + tempoRestante * 1000;
             formatarHoraDeFim();
         }
@@ -72,12 +77,14 @@ function temporizador() {
     atualizarDisplay(tempoRestante);
 
     if (tempoRestante <= 0) {
-        tempoRestante = tempoInicial; // reseta
+        tempoRestante = tempoInicial;
         clearInterval(intervalo);
         estaRodando = false;
         btnStarPause.textContent = 'START';
         btnStarPause.style.backgroundColor = 'white';
-        atualizarDisplay(tempoRestante); // mostra o reset
+        atualizarDisplay(tempoRestante);
+        horaAcabar.style.display = 'none';
+        vaiacabarTexte.style.display = 'none';
     } else {
         tempoRestante -= 1;
     }
