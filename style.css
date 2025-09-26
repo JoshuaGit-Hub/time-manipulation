@@ -76,11 +76,12 @@ body{
     position: absolute;
     left: 10px;
     top: 10px;
+    display: flex;
+    gap: 90px;
 }
 
 #vaiacabarTexte{
     display: none;
-    margin-top: 20px;
 }
 
 #horasAcabar{
@@ -97,5 +98,10 @@ body{
     #timer-container{
         align-self: self-start;
         margin-top: 200px;
+    }
+
+    #container-horas{
+        font-size: 1.5em;
+        gap: 40px;
     }
 }

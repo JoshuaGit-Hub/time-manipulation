@@ -18,8 +18,10 @@ input.addEventListener('input', () => {
             
             displayTimer.textContent = `${minutosFormatados}:${'00'}`;
             if(!(input.value === "" ||  input.value === 0 || input.value == null)){
+              setTimeout(() => {
                 horaAcabar.style.display = 'block';
                 vaiacabarTexte.style.display = 'block';
+              }, 500);
             }
             else{
                 horaAcabar.style.display = 'none';
