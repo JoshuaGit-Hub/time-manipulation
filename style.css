@@ -78,6 +78,16 @@ body{
     top: 10px;
 }
 
+#vaiacabarTexte{
+    display: none;
+    margin-top: 20px;
+}
+
+#horasAcabar{
+    display: none;
+}
+
+
 @media screen and (max-width: 600px) {
     #time{
         font-size: 2.2em;

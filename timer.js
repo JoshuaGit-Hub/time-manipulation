@@ -1,22 +1,40 @@
 const input = document.getElementById('input');
 
-let tempoRestante = '00';
+let tempoRestante = 0;
 let estaRodando = false;
 let intervalo;
 
 const btnStarPause = document.getElementById('pausar-despausar');
 const displayTimer = document.getElementById('time');
+let horaAcabar = document.getElementById('horasAcabar');
+let vaiacabarTexte = document.getElementById('vaiacabarTexte');
+let horaDeFim = 0;
 
 input.addEventListener('input', () => {
     if(!(input.value < 0)){
         if(input.value <= 999){
             tempoRestante = input.value * 60;
             const minutosFormatados = input.value.toString().padStart(2, '0');
-
+            
             displayTimer.textContent = `${minutosFormatados}:${'00'}`;
+            if(!(input.value === "")){
+                horaAcabar.style.display = 'block';
+                vaiacabarTexte.style.display = 'block';
+            }
+            horaDeFim = Date.now() + tempoRestante * 1000;
+            formatarHoraDeFim();
         }
     }
 });
+
+function formatarHoraDeFim(){
+    const formatador = new Intl.DateTimeFormat(undefined, {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+
+    horaAcabar.textContent = formatador.format(new Date(horaDeFim));
+}
 
 const tempoInicial = tempoRestante;
 
@@ -77,4 +95,3 @@ horas.textContent = formatador.format(new Date());
 }
 
 setInterval(atualizarHora, 1000);
-
